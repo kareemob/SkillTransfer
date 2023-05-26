@@ -1,2 +1,2 @@
-
+This repository contains test cases for skilltransfers.com , Using Robot Framework and Browser Library
 The test cases for skilltransfers.com are organized into two roles: admin and user. These roles have separate files containing the corresponding test cases. To execute the tests, you can use the command "robot ...",  followed by the path to the desired test file
