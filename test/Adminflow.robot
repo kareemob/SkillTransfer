@@ -123,7 +123,7 @@ Deleting course
     Should Be Equal As Strings    ${deleteMessage}    Cursus succesvol verwijderd!
     Should Not Exist    css=[data-cy="Course_name_0"]
 
-Verifying number of Courses in admin page is the same in dashboard page   #Need to be improved
+Verifying number of Courses in admin page is the same in dashboard page   
     [Tags]    Verify
     Login as a admin    ${validEmail}    ${validPassword}
     Getting course number
