@@ -33,6 +33,7 @@ ${course_count}
 ${course_num}
 ${homepagetitle}
 ${subtitle}
+${Button_Count}   80
 
 
 *** Test Cases ***
@@ -135,7 +136,24 @@ Verify home page title and home page subtitle
     Input title and subtitle
     Should Be Equal As Strings    ${homepagetitle}    QAcart
     Should Be Equal As Strings    ${subtitle}    innovative quality solutions
+
+Test sorting courses by Avalability    #need to be improved
+    [Tags]    
+    Login as a admin    ${validEmail}    ${validPassword}
+    ${randomIndex}    Evaluate    random.randint(1, ${Button_Count})
+    ${buttonxpath}    Set Variable    //*[@id="root"]/main/div/div/div[2]/div/table/tbody/tr[${randomIndex}]/td[1]/div/div/span/span/input
+    Click    ${buttonxpath}
+    Click    "Ja"
+    Sleep     2s
+    ${Beforeclick}    Get Element Count    css=[type="checkbox"] 
+    #Need improvment
     
+    Click    //*[@id="root"]/div[1]/div/div/div/div/ul/div[2]/div
+    ${AfterClick}    Get Element Count    .MuiButton-sizeSmall
+    Should Be Equal As Integers    ${Beforeclick -1}    ${AfterClick}
+    Go Back
+    Click    ${buttonxpath}
+    Click    "Ja"
     
 
     
