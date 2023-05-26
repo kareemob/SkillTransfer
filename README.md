@@ -1,0 +1,2 @@
+
+The test cases for skilltransfers.com are organized into two roles: admin and user. These roles have separate files containing the corresponding test cases. To execute the tests, you can use the command "robot ...",  followed by the path to the desired test file
