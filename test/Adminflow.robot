@@ -34,6 +34,11 @@ ${course_num}
 ${homepagetitle}
 ${subtitle}
 ${Button_Count}   80
+${Beforeclick}
+${AfterClick}
+${buttonxpath}
+${editusername}    #Edit user data" in Keywords
+
 
 
 *** Test Cases ***
@@ -137,28 +142,32 @@ Verify home page title and home page subtitle
     Should Be Equal As Strings    ${homepagetitle}    QAcart
     Should Be Equal As Strings    ${subtitle}    innovative quality solutions
 
-Test sorting courses by Avalability    #need to be improved
-    [Tags]    
+Test sorting courses by Avalability    
+    [Tags]     availability   
     Login as a admin    ${validEmail}    ${validPassword}
-    ${randomIndex}    Evaluate    random.randint(1, ${Button_Count})
-    ${buttonxpath}    Set Variable    //*[@id="root"]/main/div/div/div[2]/div/table/tbody/tr[${randomIndex}]/td[1]/div/div/span/span/input
-    Click    ${buttonxpath}
-    Click    "Ja"
-    Sleep     2s
-    ${Beforeclick}    Get Element Count    css=[type="checkbox"] 
-    #Need improvment
-    
-    Click    //*[@id="root"]/div[1]/div/div/div/div/ul/div[2]/div
-    ${AfterClick}    Get Element Count    .MuiButton-sizeSmall
+    Make the course unavailable
     Should Be Equal As Integers    ${Beforeclick -1}    ${AfterClick}
-    Go Back
-    Click    ${buttonxpath}
-    Click    "Ja"
-    
+    Make the course available
 
-    
+Admin should be able to edit user account
+    [Tags]    Unaam
+    Login as a admin    ${validEmail}    ${validPassword}
+    Edit User data
+    Should Be Equal As Strings    ${editusername}    Gebruikersrol succesvol bijgewerkt!
 
-    
+Admin Should be able to add skills to students   #BUG
+    [Tags]    skill
+    Login as a admin    ${validEmail}    ${validPassword}
+    Click    "Studenten"
+    Debug
+    Click    css=[data-cy="Add_Skill_To_User_1"]
+    Click    css=[data-cy="Course"]
+    Click    //*[@id="menu-course"]/div[3]/ul/li[1]
+    Click    id=mui-component-select-level
+    Click    css=[data-value="Har"]
+    Click    css=[data-cy="Skills"]
+    Click    .jss118
+    Click    "Opslaan"
     
     
     
@@ -378,3 +387,29 @@ Input title and subtitle
     Set Global Variable    ${homepagetitle}
     ${subtitle}    Get Text    .MuiTypography-subtitle1
     Set Global Variable    ${subtitle}
+
+Make the course unavailable
+    ${randomIndex}    Evaluate    random.randint(1, ${Button_Count})
+    ${buttonxpath}    Set Variable    //*[@id="root"]/main/div/div/div[2]/div/table/tbody/tr[${randomIndex}]/td[1]/div/div/span/span/input
+    Set Global Variable    ${buttonxpath}
+    Click    ${buttonxpath}
+    Click    "Ja"
+    ${Beforeclick}    Get Element Count    .jss49  
+    Set Global Variable    ${Beforeclick}
+    Click    //*[@id="root"]/div[1]/div/div/div/div/ul/div[2]/div
+    ${AfterClick}    Get Element Count    .MuiButton-sizeSmall
+    Set Global Variable    ${AfterClick}
+
+Make the course available
+    Go Back
+    Click    ${buttonxpath}
+    Click    "Ja"
+
+Edit User data
+    Click    "Studenten"
+    Click    css=[data-cy="Edit_Student_1"]
+    Fill Text    id=name    John ob
+    Click    "Opslaan"
+    Wait For Elements State    //*[@id="root"]/div[2]/div/div/div/div/div/div[2]
+    ${editusername}    Get Text    //*[@id="root"]/div[2]/div/div/div/div/div/div[2]
+    Set Global Variable    ${editusername}

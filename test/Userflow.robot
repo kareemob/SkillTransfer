@@ -52,8 +52,15 @@ User should not be able to login with valid email and empty password
 User should be able to enroll any course
     [Tags]    enroll
     Login as user    ${ValidEmail}    ${ValidPassword}
-    Register to a Course
+    Enroll to a Course
     Should Be Equal As Strings    ${Cmessage}     Hoerraa!\nJij bent ingeschreven voor   
+
+User should not be able to enroll in the same course multiple times.
+    [Tags]    mul
+    Login as user    ${ValidEmail}    ${ValidPassword}
+    ${Rcourse}    Get Text    //*[@id="root"]/main/div/div/div[2]/div[8]/div/div[3]/a/span[1]
+    Should Be Equal As Strings    ${Rcourse}    GA NAAR CURSUS
+
 
 
 
@@ -70,7 +77,7 @@ Login as user
     Fill Text    id=password    ${Password}
     Click    "INLOGGEN"
 
-Register to a Course
+Enroll to a Course
     ${random_index}    Evaluate    random.randint(1, ${BUTTON_COUNT})
     ${button_xpath}    Set Variable    (//*[@id="root"]/main/div/div/div[2]/div)[${random_index}]/div/div[3]/button/span[1]
     Click    ${button_xpath}
