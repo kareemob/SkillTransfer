@@ -16,7 +16,7 @@ ${Emptyemail}
 ${EmptyPassword}
 ${BUTTON_COUNT}   80
 ${Cmessage}    #Find it "Register to a Course" in Keywords
-
+${changeAlert}     #Find it "Change user info" in Keywords
 
 
 *** Test Cases ***
@@ -61,6 +61,11 @@ User should not be able to enroll in the same course multiple times.
     ${Rcourse}    Get Text    //*[@id="root"]/main/div/div/div[2]/div[8]/div/div[3]/a/span[1]
     Should Be Equal As Strings    ${Rcourse}    GA NAAR CURSUS
 
+User should be able to change informations
+    [Tags]    info
+    Login as user    ${ValidEmail}    ${ValidPassword}
+    Change user info
+    Should Be Equal As Strings    ${changeAlert}    Instellingen zijn bijgewerkt!
 
 
 
@@ -86,3 +91,13 @@ Enroll to a Course
     ${RegisterM}    Get Text    .MuiTypography-alignCenter
     ${Cmessage}    Get Substring    ${RegisterM}    0    35
     Set Global Variable    ${Cmessage}
+
+Change user info
+    Click    .MuiAvatar-circle
+    Click    "Instellingen"
+    Fill Text    id=bio    Student
+    Fill Text    id=address    amman
+    Click    "Wijzigingen opslaan"
+    Wait For Elements State    css=[class="MuiAlert-message"]
+    ${changeAlert}    Get Text    css=[class="MuiAlert-message"]
+    Set Global Variable    ${changeAlert}

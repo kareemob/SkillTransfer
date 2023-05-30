@@ -38,7 +38,8 @@ ${Beforeclick}
 ${AfterClick}
 ${buttonxpath}
 ${editusername}    #Edit user data" in Keywords
-
+${TeacherAfter}    #"Change role from student to teacher" in Keywords
+${TecherBefore}    #"Change role from student to teacher" in Keywords
 
 
 *** Test Cases ***
@@ -168,17 +169,26 @@ Admin Should be able to add skills to students   #BUG
     Click    css=[data-cy="Skills"]
     Click    .jss118
     Click    "Opslaan"
+
+Admin should be able to change roles of useres     
+    [Tags]    us
+    Login as a admin    ${validEmail}    ${validPassword}
+    Change roll to teacher
+    Should Be Equal As Integers    ${TeacherAfter}    ${TecherBefore /2 +1}
+    Change roll to student
+
+Admin should not be able to upload a poor quality vedio  #BUG    
+    [Tags]    po
+    Login as a admin    ${validEmail}    ${validPassword}
+    #Improvment Needed
+    Click    css=[data-cy="Add_Lavel_0"]
+    Fill Text    id=level    level
+    Fill Text    id=skill    skill
+    Upload File By Selector    id=youtubeLink    vedio.mp4
+    Debug
+    Upload File By Selector    //*[@id="youtubeLink"]    vedio.mp4
+    Click    "Opslaan"
     
-    
-    
-
-
-
-    
-    
-
-
-
 
 
 
@@ -413,3 +423,22 @@ Edit User data
     Wait For Elements State    //*[@id="root"]/div[2]/div/div/div/div/div/div[2]
     ${editusername}    Get Text    //*[@id="root"]/div[2]/div/div/div/div/div/div[2]
     Set Global Variable    ${editusername}
+
+Change roll to teacher
+    Click    "Leraren"
+    ${TecherBefore}    Get Element Count    css=[type="button"]
+    Set Global Variable    ${TecherBefore}
+    Click    "Studenten"
+    Click    css=[data-cy="Edit_Student_1"]
+    Click    id=role
+    Click    css=[data-value="peer"]
+    Click    "Opslaan"
+    Click    "Leraren"
+    ${TeacherAfter}    Get Element Count    css=[alt="eye"]
+    Set Global Variable    ${TeacherAfter}
+
+Change roll to student
+    Click    css=[data-cy="Edit_Teacher_1"]
+    Click    id=role
+    Click    css=[data-value="student"]
+    Click    "Opslaan"
